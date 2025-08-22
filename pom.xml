@@ -22,15 +22,17 @@
         <jwt.version>4.4.0</jwt.version>
         <twilio.version>9.10.0</twilio.version>
         <lombok.version>1.18.30</lombok.version>
-        <springdoc.version>2.2.0</springdoc.version>
+        <springdoc.version>2.7.0</springdoc.version>
     </properties>
     
     <dependencies>
-        <!-- Spring Boot Starters -->
+        <!-- Spring Boot Starter Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        
+        <!-- Spring Boot Starters -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

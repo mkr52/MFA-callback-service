@@ -6,7 +6,13 @@ server:
 spring:
   application:
     name: mfa-callback-service
-  
+  # Enable bean definition overriding
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   # Security configuration for JWT validation
   security:
     oauth2:
@@ -46,6 +52,19 @@ management:
     info:
       env:
         enabled: true
+
+# API Documentation
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    doc-expansion: none
+  show-actuator: true
+  paths-to-match: /**
+  packages-to-scan: com.example.mfacallbacks.controller
 
 # Logging configuration
 logging:
