@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: mfa-callback-service
+  
+  # Security configuration for JWT validation
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:https://your-transmit-security-issuer}
+          jwk-set-uri: ${JWK_SET_URI:https://your-transmit-security-issuer/.well-known/jwks.json}
+
+# Twilio Configuration
+twilio:
+  account-sid: ${TWILIO_ACCOUNT_SID:}
+  auth-token: ${TWILIO_AUTH_TOKEN:}
+  phone-number: ${TWILIO_PHONE_NUMBER:}
+
+# JWT Configuration
+jwt:
+  audience: ${JWT_AUDIENCE:your-audience}
+  issuer: ${JWT_ISSUER:https://your-transmit-security-issuer}
+  jwk-set-uri: ${JWK_SET_URI:https://your-transmit-security-issuer/.well-known/jwks.json}
+
+# Application properties
+app:
+  otp:
+    length: 6
+    expiry-minutes: 5
+    message: "Your verification code is: %s. Valid for %d minutes."
+
+# Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+    info:
+      env:
+        enabled: true
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    com.example.mfacallbacks: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.springframework.boot.actuate: INFO
