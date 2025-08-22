@@ -2,6 +2,7 @@ package com.example.mfacallbacks;
 
 import com.example.mfacallbacks.service.OtpService;
 import com.example.mfacallbacks.service.SmsService;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -20,6 +21,9 @@ public class TestConfig {
     @Bean
     @Primary
     public SmsService smsService() {
-        return mock(SmsService.class);
+        SmsService smsService = mock(SmsService.class);
+        // Configure mock behavior here if needed
+        Mockito.doNothing().when(smsService).sendOtp(Mockito.anyString(), Mockito.anyString());
+        return smsService;
     }
 }

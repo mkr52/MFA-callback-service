@@ -1,6 +1,6 @@
 package com.example.mfacallbacks.controller;
 
-import com.example.mfacallbacks.dto.ApiResponse;
+import com.example.mfacallbacks.dto.ApiResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +21,13 @@ public class HealthController {
     private String applicationName;
 
     @GetMapping("/status")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getHealthStatus() {
+    public ResponseEntity<ApiResponseDTO<Map<String, Object>>> getHealthStatus() {
         Map<String, Object> healthData = new HashMap<>();
         healthData.put("service", applicationName);
         healthData.put("status", "UP");
         healthData.put("timestamp", Instant.now().toString());
         healthData.put("version", "1.0.0");
         
-        return ResponseEntity.ok(ApiResponse.success("Service is healthy", healthData));
+        return ResponseEntity.ok(ApiResponseDTO.success("Service is healthy", healthData));
     }
 }

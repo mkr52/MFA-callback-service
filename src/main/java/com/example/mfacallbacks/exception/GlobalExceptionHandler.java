@@ -1,6 +1,6 @@
 package com.example.mfacallbacks.exception;
 
-import com.example.mfacallbacks.dto.ApiResponse;
+import com.example.mfacallbacks.dto.ApiResponseDTO;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,21 +21,21 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {AuthenticationException.class})
-    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
+    public ResponseEntity<ApiResponseDTO<?>> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
         log.error("Authentication error: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error("Authentication failed: " + ex.getMessage()));
+                .body(ApiResponseDTO.error("Authentication failed: " + ex.getMessage()));
     }
 
     @ExceptionHandler(value = {AccessDeniedException.class})
-    public ResponseEntity<ApiResponse<?>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+    public ResponseEntity<ApiResponseDTO<?>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         log.error("Access denied: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(ApiResponse.error("Access denied: " + ex.getMessage()));
+                .body(ApiResponseDTO.error("Access denied: " + ex.getMessage()));
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<ApiResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponseDTO<?>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> 
             errors.put(error.getField(), error.getDefaultMessage())
@@ -47,20 +47,20 @@ public class GlobalExceptionHandler {
                 
         log.error("Validation error: {}", errorMessage);
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Validation failed: " + errorMessage));
+                .body(ApiResponseDTO.error("Validation failed: " + errorMessage));
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
-    public ResponseEntity<ApiResponse<?>> handleConstraintViolationException(ConstraintViolationException ex) {
+    public ResponseEntity<ApiResponseDTO<?>> handleConstraintViolationException(ConstraintViolationException ex) {
         log.error("Constraint violation: {}", ex.getMessage());
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Validation failed: " + ex.getMessage()));
+                .body(ApiResponseDTO.error("Validation failed: " + ex.getMessage()));
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ApiResponse<?>> handleAllExceptions(Exception ex, WebRequest request) {
+    public ResponseEntity<ApiResponseDTO<?>> handleAllExceptions(Exception ex, WebRequest request) {
         log.error("Unexpected error: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error("An unexpected error occurred: " + ex.getMessage()));
+                .body(ApiResponseDTO.error("An unexpected error occurred: " + ex.getMessage()));
     }
 }
